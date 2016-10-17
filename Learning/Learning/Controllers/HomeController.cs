@@ -11,7 +11,7 @@ namespace Learning.Controllers
         // GET: Home
         public string Index()
         {
-            return "Hello, This is MVC Learning";
+            return "Hello, This is MVC";
         }
     }
 }
