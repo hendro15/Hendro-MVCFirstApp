@@ -11,7 +11,7 @@ namespace Learning.Controllers
         // GET: Home
         public string Index()
         {
-            return "Hello, This is my first MVC ASP.Net app";
+            return "Hello, This is MVC Learning";
         }
     }
 }
