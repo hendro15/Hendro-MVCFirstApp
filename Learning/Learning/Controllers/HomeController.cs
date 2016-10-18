@@ -9,9 +9,9 @@ namespace Learning.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public string Index()
+        public ActionResult Index()
         {
-            return "Hello, This is MVC";
+            return View();
         }
     }
 }
