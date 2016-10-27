@@ -1,0 +1,50 @@
+﻿@model Learning.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="col-md-6 col-md-offset-3" style="padding-top: 60px">
+    <div class="panel panel-default" style="border-radius: 0;">
+        <div class="panel-heading" style="background-color: #57BF98; border-radius: 0;color: white"><h3>Login</h3> Use a local account to log in.</div>
+        <div class="panel-body" style="border-radius: 0;">
+            @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "Login failde. Check your login details");
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Log in" class="btn btn-primary" />
+                        <p class="pull-right">
+                            @Html.ActionLink("Register as a new user", "Register")
+                        </p>
+                    </div>
+
+                    @* Enable this once you have account confirmation enabled for password reset functionality
+                        <p>
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                        </p>*@
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
