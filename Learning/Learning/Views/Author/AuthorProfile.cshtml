@@ -1,14 +1,23 @@
-﻿@if(Session["LoggedFullname"] != null)
+﻿@model Learning.Models.AuthorViewModel
+
+@if(Session["LoggedFullname"] != null)
 {
     <text>
     Welcome @Session["LoggedUserFullname"].ToString()
     </text>
 }
-@{
+﻿@{
     ViewBag.Title = "My Profile";
 }
 
 <!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
 
     <div id="page-content-wrapper">
         <!-- Sidebar -->
@@ -41,8 +50,8 @@
                         <img src="~/Img/profile.png" alt="Sample Photo" />
                     </div>
                     <div class="id-profile">
-                        <h1>Sholeh Elfrianto</h1>
-                        <p>Institut Teknologi Sepuluh November</p>
+                        <h1>@Model.Fullname</h1>
+                        <p>@Model.UserId</p>
                         <p>Surabaya, Jawa Timur, Indonesia</p>
                     </div>
                 </div>
@@ -62,3 +71,7 @@
         </div>
         <!-- /#page-content-wrapper -->
     </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrapjs")
+</body>
+</html>

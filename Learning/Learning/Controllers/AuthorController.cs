@@ -3,22 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Learning.Models;
 
 namespace Learning.Controllers
 {
     public class AuthorController : Controller
     {
+        
         // GET: Author
-        public ActionResult AuthorProfile()
+        public ActionResult AuthorProfile(AuthorViewModel authorModel)
         {
-            if(Session["LogedUserID"] != null)
+            if(authorModel.Fullname != null)
             {
-                return View();
+                return View(authorModel);
             }
             else
             {
                 return RedirectToAction("Index","Home");
             }
+
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
