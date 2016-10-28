@@ -353,6 +353,8 @@ a:focus {
 
 img {
   vertical-align: middle;
+  width : 150px;
+  height: 150px
 }
 
 .img-responsive {
@@ -786,6 +788,7 @@ pre code {
 .row {
   margin-right: -15px;
   margin-left: -15px;
+  margin-top : 50px;
 }
 
 .row:before,

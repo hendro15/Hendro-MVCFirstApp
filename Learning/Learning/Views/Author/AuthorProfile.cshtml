@@ -1,77 +1,110 @@
-﻿@model Learning.Models.AuthorViewModel
-
-@if(Session["LoggedFullname"] != null)
-{
-    <text>
-    Welcome @Session["LoggedUserFullname"].ToString()
-    </text>
-}
-﻿@{
+﻿@model Learning.Models.AuthorViewModel﻿
+@{
     ViewBag.Title = "My Profile";
 }
 
-<!DOCTYPE html>
+<style>
+    .well {
+        background-color: #57BF98;
+        border-radius: 0px;
+    }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-
-    <div id="page-content-wrapper">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-                <li class="active">
-                    <a href="#"><span class="fa-stack fa-lg pull-right"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
-                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="#">link1</a></li>
-                        <li><a href="#">link2</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Shortcut</a>
-                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
-                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Overview</a>
-                </li>
-            </ul>
-        </div><!-- /#sidebar-wrapper -->
-        <div class="container-fluid xyz">
-            <div id="wrapper">
-                <div class="head-row">
-                    <div class="id-photo">
-                        <img src="~/Img/profile.png" alt="Sample Photo" />
-                    </div>
-                    <div class="id-profile">
-                        <h1>@Model.Fullname</h1>
-                        <p>@Model.UserId</p>
-                        <p>Surabaya, Jawa Timur, Indonesia</p>
-                    </div>
-                </div>
-                <!-- Page Content -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Simple Sidebar With Bootstrap 3 by <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">Seegatesite.com</a></h1>
-                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
-                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
-                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
-                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
-                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="http://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
-                    </div>
-                </div>
+        .well h4 {
+            color: white;
+            text-align: center;
+        }
+</style>
+<div class="container-fluid">
+    <div class="col-md-8">
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-3">
+                <img src="~/Img/profile.png" alt="Sample Photo" />
             </div>
-
+            <div class="col-md-9">
+                <h2>@Model.Fullname</h2>
+                <hr>
+                <p>@Model.Affiliasi</p>
+                <p>@Model.email</p>
+            </div>
         </div>
-        <!-- /#page-content-wrapper -->
+        <hr>
+        <div>
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th style="text-align: center" width="50%">Judul</th>
+                        <th style="text-align: center">Dikutip oleh</th>
+                        <th style="text-align: center">Tahun</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrapjs")
-</body>
-</html>
+    <div class="col-md-4">
+        <div class="well">
+            <form class="form-horizontal" method="get" action="{{ url('/search_result') }}">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" class="form-control input" style="border-radius: 0" />
+                        <span class="input-group-btn">
+                            <button class="btn btn" type="button" style="border-radius: 0;background-color: #999; color: white">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-md-offset-1">
+                        <label class="radio-inline">
+                            <input type="radio" id="inlineRadio1" name="inlineRadioOptions" value="option1" checked="true"> all
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="inlineRadio2" name="inlineRadioOptions" value="option2"> name
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="inlineRadio3" name="inlineRadioOptions" value="option3"> title
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

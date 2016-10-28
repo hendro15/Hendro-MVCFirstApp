@@ -9,6 +9,8 @@ namespace Learning.Models
     {
         public int UserId { get; set; }
         public String Fullname { get; set; }
-
+        public String email { get; set; }
+        public string Affiliasi { get; set; }
+        
     }
 }

@@ -1,31 +1,51 @@
 ﻿﻿@{
-    ViewBag.Title = "Searching";
+    ViewBag.Title = "Home Page";
 }
+<style>
+    h1 {
+        color: #777;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        line-height: 1;
+        text-align: center;
+    }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    .radio-inline {
+        font-size: 12pt;
+        padding: 30px;
+        font-family: Georgia, serif;
+    }
+</style>
+<div style="padding-top: 120px">
+    <div class="row">
+        <form class="form-horizontal" action="~/Home/SearchResult">
+            <div class="col-md-6 col-md-offset-3" align="center">
+                <h1>Indonesian <span style="color: #57BF98;">Research Citation Index</span></h1>
+                <br>
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input name="searchTxt" type="text" class="form-control input-lg" style="border-radius: 0" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-lg" type="submit" style="border-radius: 0;background-color: #57BF98; color: white; line-height:1.1;">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div><br>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" id="inlineRadio1" name="searchRB" value="0" checked="true"> all
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" id="inlineRadio2" name="searchRB" value="1"> name
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" id="inlineRadio3" name="searchRB" value="2"> title
+                    </label>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

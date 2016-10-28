@@ -1,0 +1,48 @@
+﻿﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<!--search box-->
+<div id="author-head-content">
+    <div id="custom-search-input">
+        <div class="input-group col-md-12">
+            <input name="searchTxt" type="text" class="form-control input-lg" style="border-radius: 0" />
+            <span class="input-group-btn">
+                <button class="btn btn-lg" type="submit" style="border-radius: 0;background-color: #57BF98; color: white; line-height:1.1;">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+<!--result box-->
+<div id="author-result-content">
+    <table class="table author-table">
+        <tbody id="author_tab_body">
+            <tr class="tab_body_r">
+                <td class="tab_body_a">
+                    <a>Software Engineering</a>
+                    <div class="tab_body_gray">S. Elfrianto</div>
+                    <div class="tab_body_gray">Software Engineering Vol. 24</div>
+                </td>
+            </tr>
+            <tr class="tab_body_r">
+                <td class="tab_body_a">
+                    <a>Software Engineering Concept</a>
+                    <div class="tab_body_gray">Donatello</div>
+                    <div class="tab_body_gray">Software Engineering Vol. 24</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="author-table-foot">
+        <div class="result-info-text">
+            <p>Menampilkan 2 dari xxx.xxx hasil</p>
+        </div>
+        <div class="result-info-btn">
+            <button class="btn result-btn">1</button>
+        </div>
+    </div>
+</div>

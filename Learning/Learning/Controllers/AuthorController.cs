@@ -10,20 +10,24 @@ namespace Learning.Controllers
 {
     public class AuthorController : Controller
     {
-        
+        private DbHandler db = new DbHandler();
         // GET: Author
         public ActionResult AuthorProfile(AuthorViewModel authorModel)
         {
-            if(authorModel.Fullname != null)
+            if (Session["LogedUserID"] != null)
             {
+                db.readAuthor(Session["LogedUserFullname"].ToString());
+                authorModel.UserId = db.authorId;
+                authorModel.Fullname = Session["LogedUserFullname"].ToString();
+                authorModel.email = db.authorEmail;
+                authorModel.Affiliasi = db.authorAf;
                 return View(authorModel);
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
 
-            return View();
         }
 
         public ActionResult Logout()
