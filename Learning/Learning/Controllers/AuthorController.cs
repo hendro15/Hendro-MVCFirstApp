@@ -25,7 +25,7 @@ namespace Learning.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Home");
             }
 
         }
