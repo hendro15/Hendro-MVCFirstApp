@@ -163,6 +163,7 @@
     <Compile Include="Models\AuthorViewModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\DbHandler.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <Content Include="Views\Author\AuthorProfile.cshtml" />
     <Content Include="Views\Admin\Article.cshtml" />
     <Content Include="Views\Author\SearchResult.cshtml" />
+    <Content Include="Views\Author\MyAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

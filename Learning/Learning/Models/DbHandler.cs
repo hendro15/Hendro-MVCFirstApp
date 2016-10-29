@@ -51,14 +51,14 @@ namespace Learning.Models
             }
         }
 
-        public void readAuthor(string name)
+        public void readAuthor(int id)
         {
             try
             {
                 NpgsqlConnection objConn = new NpgsqlConnection(con);
                 objConn.Open();
 
-                string query = "SELECT * FROM irci.akun_penulis WHERE nama_lengkap = '" + name + "'";
+                string query = "SELECT * FROM irci.akun_penulis WHERE id_akun_penulis = " + id;
                 using(NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                 {
                     NpgsqlDataReader reader = command.ExecuteReader();
@@ -76,6 +76,11 @@ namespace Learning.Models
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
                 throw;
             }
+        }
+
+        public void searchProfil(string name)
+        {
+
         }
 
         public void readArticle()

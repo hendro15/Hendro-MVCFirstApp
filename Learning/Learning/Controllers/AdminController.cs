@@ -9,28 +9,51 @@ namespace Learning.Controllers
 {
     public class AdminController : Controller
     {
-
+        private DbHandler db = new DbHandler();
+        private List<ArticleModel> artikelList = new List<ArticleModel>();
+        private List<ArticleModel> prosesArtikelList;
+        private ArticleModel articleModel;
         // GET: Admin
-        public ActionResult Article(DbHandler db)
+        public ActionResult Article()
         {
             
-            if(Session["LogedUserFullname"] != null)
+            if (Session["LogedUserFullname"] != null)
             {
-                //db.readArticle();
+                db.readArticle();
                 //for (int i = 0; i < int.Parse(db.listArtikel.Count.ToString()); i++)
                 //{
                 //    ar.artikelList.Add(db.listArtikel[i]);
                 //}
 
-                db.readArticle();
+                //ar.artikelList = db.listArtikel;
+                artikelList = db.listArtikel;
+                //    ar.artikelList.AddRange(db.listArtikel);
+                //db.readArticle();
 
-                return View(db);
+                return View(artikelList);
             }
             else
             {
                 return RedirectToAction("Login", "Home");
             }
+
+        }
+
+        [HttpPost]
+        public ActionResult ArticleProcess(List<ArticleModel> artikelList)
+        {
+            this.prosesArtikelList = new List<ArticleModel>();
             
+
+            for (int i = 0; i < 10; i++)
+            {
+                this.articleModel = new ArticleModel();
+                articleModel.idArtikel = int.Parse(artikelList[i].idArtikel.ToString());
+                articleModel.judulArtikel = artikelList[i].judulArtikel.ToString();
+
+                prosesArtikelList.Add(articleModel);
+            }
+            return View();
         }
     }
 }

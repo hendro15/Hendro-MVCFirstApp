@@ -11,17 +11,20 @@ namespace Learning.Controllers
     public class AuthorController : Controller
     {
         private DbHandler db = new DbHandler();
+        private SearchModel sm;
         // GET: Author
-        public ActionResult AuthorProfile(AuthorViewModel authorModel)
+        public ActionResult AuthorProfile()
         {
             if (Session["LogedUserID"] != null)
             {
-                db.readAuthor(Session["LogedUserFullname"].ToString());
-                authorModel.UserId = db.authorId;
-                authorModel.Fullname = Session["LogedUserFullname"].ToString();
-                authorModel.email = db.authorEmail;
-                authorModel.Affiliasi = db.authorAf;
-                return View(authorModel);
+                db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
+                var model = new AuthorAllModel();
+                model.authorModel = new AuthorViewModel();
+                model.authorModel.UserId = db.authorId;
+                model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
+                model.authorModel.email = db.authorEmail;
+                model.authorModel.Affiliasi = db.authorAf;
+                return View(model);
             }
             else
             {
@@ -30,10 +33,53 @@ namespace Learning.Controllers
 
         }
 
+        public ActionResult MyAccount()
+        {
+            if (Session["LogedUserID"] != null)
+            {
+                db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
+                var model = new AuthorAllModel();
+                model.authorModel = new AuthorViewModel();
+                model.authorModel.UserId = db.authorId;
+                model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
+                model.authorModel.email = db.authorEmail;
+                model.authorModel.Affiliasi = db.authorAf;
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+        }
+
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult SearchResult(string key)
+        {
+            this.sm = new SearchModel();
+
+            if(key != null)
+            {
+                sm.key = key;
+                return View(sm);
+            }
+            else
+            {
+                return RedirectToAction("AuthorProfile", "Author");
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult Search(AuthorAllModel allModel)
+        {
+            string key = allModel.searchModel.key;
+            return RedirectToAction("SearchResult", "Author", new { key = key});
         }
     }
 }

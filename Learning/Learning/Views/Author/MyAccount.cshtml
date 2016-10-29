@@ -1,0 +1,54 @@
+﻿@model Learning.Models.AuthorViewModel
+@{
+    ViewBag.Title = "MyAccount";
+}
+
+<div>
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th style="text-align: center" width="50%">Identitas</th>
+                <th style="text-align: center">Foto</th>
+                <th style="text-align: center">Identitas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <h2>@Model.Fullname</h2>
+                    <p>@Model.Affiliasi</p>
+                </td>
+                <td align="center">Foto</td>
+                <td align="center">@Model.UserId</td>
+            </tr>
+            <tr>
+                <td>
+                    <h2>Title</h2>
+                    <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                    <a href="#">ITS Publisher</a>
+                </td>
+                <td align="center">bla bla bla</td>
+                <td align="center">2016</td>
+            </tr>
+            <tr>
+                <td>
+                    <h2>Title</h2>
+                    <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                    <a href="#">ITS Publisher</a>
+                </td>
+                <td align="center">bla bla bla</td>
+                <td align="center">2016</td>
+            </tr>
+            <tr>
+                <td>
+                    <h2>Title</h2>
+                    <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                    <a href="#">ITS Publisher</a>
+                </td>
+                <td align="center">bla bla bla</td>
+                <td align="center">2016</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

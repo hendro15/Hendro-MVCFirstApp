@@ -1,4 +1,6 @@
-﻿@model Learning.Models.DbHandler
+﻿@*@model Learning.Models.ArticleRecords*@
+@using System.Collections.Generic
+@model List<Learning.Models.ArticleModel>
 
 @{
     ViewBag.Title = "Article";
@@ -10,7 +12,7 @@
     <br />
     <br />
     <div class="form-group col-md-2">
-        <input type="submit" value="Process" class="btn btn-primary" />
+        <input id="btnProccessArticle" type="submit" value="Process" class="btn btn-primary" />
     </div>
     <br />
     <br />
@@ -27,24 +29,17 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i <= int.Parse((Model.listArtikel.Count.ToString())) - 1; ++i)
+                @foreach(Learning.Models.ArticleModel item in Model)
                 {
-                <tr>
-                    <th scope="row">@Model.listArtikel[i].idArtikel.ToString()</th>
-                    <td>@Model.listArtikel[i].judulArtikel.ToString()</td>
-                    <td>@Model.listArtikel[i].penulisArtikel.ToString()</td>
-                    <td>@Model.listArtikel[i].tahun.ToString()</td>
-                    <td>@Model.listArtikel[i].statusArtikel.ToString()</td>
-                    <!--
-                    <td>
-                        <input type="submit" value="Edit" class="btn btn-success" />
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-
-
-                    </td>
-                    -->
-                </tr>
+                    <tr>
+                        <td>@item.idArtikel</td>
+                        <td>@item.judulArtikel</td>
+                        <td>@item.penulisArtikel</td>
+                        <td>@item.tahun</td>
+                        <td>@item.statusArtikel</td>
+                    </tr>
                 }
+                
             </tbody>
         </table>
     </div>

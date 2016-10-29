@@ -18,8 +18,8 @@ namespace Learning.Models
 
     public class ArticleRecords
     {
-        //public List<ArticleModel> artikelList { get; set; }
-        public List<ArticleModel> artikelList = new List<ArticleModel>();
+        public List<ArticleModel> artikelList { get; set; }
+        //public List<ArticleModel> artikelList = new List<ArticleModel>();
         //public ArrayList artikel { get; set; }
     }
 }

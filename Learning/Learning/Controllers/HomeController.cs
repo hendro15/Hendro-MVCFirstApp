@@ -45,7 +45,7 @@ namespace Learning.Controllers
                 {
                     Session["LogedUserID"] = db.authorId;
                     Session["LogedUserFullname"] = db.authorName;
-                    return RedirectToAction("AuthorProfile", "Author");
+                    return RedirectToAction("AuthorProfile", "Author", new { id = db.authorId });
                 }
                 else if (lm.Email.Equals(adEmail) && lm.Password.Equals(adPass))
                 {
@@ -59,7 +59,14 @@ namespace Learning.Controllers
             return View(lm);
         }
 
+        [HttpPost]
+        public ActionResult LogOff()
+        {
+            Session["LogedUserID"] = null;
+            Session["LogedUserFullname"] = null;
+
+            return RedirectToAction("Login", "Home");
+        }
+
     }
-
-
 }
