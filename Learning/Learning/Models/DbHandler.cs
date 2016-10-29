@@ -15,6 +15,11 @@ namespace Learning.Models
         public String authorPass { get; set; }
         public String authorAf { get; set; }
 
+
+        private ArticleModel articleModel;
+        //private ArticleRecords articleRecors = new ArticleRecords();
+        public List<ArticleModel> listArtikel = new List<ArticleModel>();
+
         private string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=our_irci";
 
         public void loginAuthor(string email, string pass)
@@ -67,6 +72,39 @@ namespace Learning.Models
                 objConn.Close();
             }
             catch(Exception msg)
+            {
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
+                throw;
+            }
+        }
+
+        public void readArticle()
+        {
+            try
+            {
+                NpgsqlConnection objConn = new NpgsqlConnection(con);
+                objConn.Open();
+
+                string query = "SELECT * FROM irci.artikel";
+
+                using(NpgsqlCommand command = new NpgsqlCommand(query, objConn))
+                {
+                    NpgsqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        this.articleModel = new ArticleModel();
+                        articleModel.idArtikel = int.Parse(reader[0].ToString());
+                        articleModel.judulArtikel = reader[1].ToString();
+                        articleModel.penulisArtikel = reader[2].ToString();
+                        articleModel.tahun = reader[3].ToString();
+                        articleModel.statusArtikel = int.Parse(reader[4].ToString());
+                        //articleRecors.artikelList.Add(articleModel);
+                        listArtikel.Add(articleModel);
+                    }
+
+                }
+            }
+            catch (Exception msg)
             {
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
                 throw;

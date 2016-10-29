@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuthorViewModel.cs" />
+    <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\DbHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

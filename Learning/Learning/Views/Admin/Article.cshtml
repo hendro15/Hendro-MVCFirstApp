@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Learning.Models.DbHandler
+
+@{
     ViewBag.Title = "Article";
 }
 
@@ -20,15 +22,19 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Year</th>
+                    <th>Status</th>
                     <!--<th class="col-md-2">Action</th>-->
                 </tr>
             </thead>
             <tbody>
+                @for (int i = 0; i <= int.Parse((Model.listArtikel.Count.ToString())) - 1; ++i)
+                {
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>try</td>
+                    <th scope="row">@Model.listArtikel[i].idArtikel.ToString()</th>
+                    <td>@Model.listArtikel[i].judulArtikel.ToString()</td>
+                    <td>@Model.listArtikel[i].penulisArtikel.ToString()</td>
+                    <td>@Model.listArtikel[i].tahun.ToString()</td>
+                    <td>@Model.listArtikel[i].statusArtikel.ToString()</td>
                     <!--
                     <td>
                         <input type="submit" value="Edit" class="btn btn-success" />
@@ -38,6 +44,7 @@
                     </td>
                     -->
                 </tr>
+                }
             </tbody>
         </table>
     </div>
