@@ -8,5 +8,6 @@ namespace Learning.Models
     public class SearchModel
     {
         public String key { get; set; }
+        public List<string> searchResult { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model Learning.Models.SearchModel
+﻿@using System.Collections.Generic
+@model List<String>
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -22,20 +23,13 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
+            @foreach(string result in Model) { 
             <tr class="tab_body_r">
                 <td class="tab_body_a">
-                    <a>@Model.key</a>
-                    <div class="tab_body_gray">S. Elfrianto</div>
-                    <div class="tab_body_gray">Software Engineering Vol. 24</div>
+                    <a>@result</a>
                 </td>
             </tr>
-            <tr class="tab_body_r">
-                <td class="tab_body_a">
-                    <a>Software Engineering Concept</a>
-                    <div class="tab_body_gray">Donatello</div>
-                    <div class="tab_body_gray">Software Engineering Vol. 24</div>
-                </td>
-            </tr>
+            }
         </tbody>
     </table>
     <div class="author-table-foot">

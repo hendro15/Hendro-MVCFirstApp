@@ -20,6 +20,8 @@ namespace Learning.Models
         //private ArticleRecords articleRecors = new ArticleRecords();
         public List<ArticleModel> listArtikel = new List<ArticleModel>();
 
+        public List<string> searchResult = new List<string>();
+
         private string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=our_irci";
 
         public void loginAuthor(string email, string pass)
@@ -59,7 +61,7 @@ namespace Learning.Models
                 objConn.Open();
 
                 string query = "SELECT * FROM irci.akun_penulis WHERE id_akun_penulis = " + id;
-                using(NpgsqlCommand command = new NpgsqlCommand(query, objConn))
+                using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                 {
                     NpgsqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -71,16 +73,62 @@ namespace Learning.Models
                 }
                 objConn.Close();
             }
-            catch(Exception msg)
+            catch (Exception msg)
             {
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
                 throw;
             }
         }
 
-        public void searchProfil(string name)
+        public void searchProfile(string key)
         {
+            string[] keywords = key.Split(' ');
 
+            try
+            {
+                NpgsqlConnection objConn = new NpgsqlConnection(con);
+                objConn.Open();
+
+                //search in akun_penulis
+                foreach (string word in keywords)
+                {
+                    string query = "SELECT akun_penulis.nama_lengkap FROM irci.akun_penulis WHERE akun_penulis.nama_lengkap LIKE '%" + word + "%'";
+
+                    using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
+                    {
+                        NpgsqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            authorName = reader[0].ToString();
+
+                            searchResult.Add(authorName);
+                        }
+                    }
+                }
+
+                //search in penulis
+                foreach (string word in keywords)
+                {
+                    string query = "SELECT penulis.nama_penulis FROM irci.penulis WHERE penulis.nama_penulis LIKE '%" + word + "%'";
+
+                    using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
+                    {
+                        NpgsqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            authorName = reader[0].ToString();
+
+                            searchResult.Add(authorName);
+                        }
+                    }
+                }
+                objConn.Close();
+            }
+            catch (Exception msg)
+            {
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
+                throw;
+            }
         }
 
         public void readArticle()
@@ -92,7 +140,7 @@ namespace Learning.Models
 
                 string query = "SELECT * FROM irci.artikel";
 
-                using(NpgsqlCommand command = new NpgsqlCommand(query, objConn))
+                using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                 {
                     NpgsqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())

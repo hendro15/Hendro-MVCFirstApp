@@ -44,7 +44,7 @@ namespace Learning.Controllers
                 model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
                 model.authorModel.email = db.authorEmail;
                 model.authorModel.Affiliasi = db.authorAf;
-                return View(model);
+                return View(model.authorModel);
             }
             else
             {
@@ -65,8 +65,12 @@ namespace Learning.Controllers
 
             if(key != null)
             {
-                sm.key = key;
-                return View(sm);
+                //sm.key = key;
+                db.searchProfile(key);
+
+                sm.searchResult = db.searchResult;
+
+                return View(sm.searchResult);
             }
             else
             {
