@@ -1,5 +1,5 @@
 ﻿@using System.Collections.Generic
-@model List<String>
+@model List<Learning.Models.AuthorViewModel>
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -23,11 +23,18 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
-            @foreach(string result in Model) { 
+            @foreach(Learning.Models.AuthorViewModel m in Model) {
             <tr class="tab_body_r">
                 <td class="tab_body_a">
-                    <a>@result</a>
+                    @m.UserId
                 </td>
+                <td class="tab_body_a">
+                    @m.Fullname
+                </td>
+                <td class="tab_body_a">
+                    @m.Affiliasi
+                </td>
+                <td>@Html.ActionLink("View", "ViewFromSearch",  new { id = m.UserId})</td>
             </tr>
             }
         </tbody>

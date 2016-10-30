@@ -17,10 +17,11 @@ namespace Learning.Models
 
 
         private ArticleModel articleModel;
+        private AuthorViewModel authorModel;
         //private ArticleRecords articleRecors = new ArticleRecords();
         public List<ArticleModel> listArtikel = new List<ArticleModel>();
 
-        public List<string> searchResult = new List<string>();
+        public List<AuthorViewModel> searchResult = new List<AuthorViewModel>();
 
         private string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=our_irci";
 
@@ -67,6 +68,7 @@ namespace Learning.Models
                     while (reader.Read())
                     {
                         authorId = int.Parse(reader[0].ToString());
+                        authorName = reader[1].ToString();
                         authorEmail = reader[2].ToString();
                         authorAf = reader[4].ToString();
                     }
@@ -92,16 +94,19 @@ namespace Learning.Models
                 //search in akun_penulis
                 foreach (string word in keywords)
                 {
-                    string query = "SELECT akun_penulis.nama_lengkap FROM irci.akun_penulis WHERE akun_penulis.nama_lengkap LIKE '%" + word + "%'";
+                    string query = "SELECT akun_penulis.id_akun_penulis, akun_penulis.nama_lengkap, akun_penulis.afiliasi FROM irci.akun_penulis WHERE akun_penulis.nama_lengkap LIKE '%" + word + "%'";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                     {
                         NpgsqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            authorName = reader[0].ToString();
+                            this.authorModel = new AuthorViewModel();
+                            authorModel.UserId = int.Parse(reader[0].ToString());
+                            authorModel.Fullname= reader[1].ToString();
+                            authorModel.Affiliasi= reader[2].ToString();
 
-                            searchResult.Add(authorName);
+                            searchResult.Add(authorModel);
                         }
                     }
                 }
@@ -109,16 +114,19 @@ namespace Learning.Models
                 //search in penulis
                 foreach (string word in keywords)
                 {
-                    string query = "SELECT penulis.nama_penulis FROM irci.penulis WHERE penulis.nama_penulis LIKE '%" + word + "%'";
+                    string query = "SELECT penulis.id_penulis, penulis.nama_penulis FROM irci.penulis WHERE penulis.nama_penulis LIKE '%" + word + "%'";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                     {
                         NpgsqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            authorName = reader[0].ToString();
+                            this.authorModel = new AuthorViewModel();
+                            authorModel.UserId = int.Parse(reader[0].ToString());
+                            authorModel.Fullname = reader[1].ToString();
+                            authorModel.Affiliasi = "Afiliasi belum diisi";
 
-                            searchResult.Add(authorName);
+                            searchResult.Add(authorModel);
                         }
                     }
                 }

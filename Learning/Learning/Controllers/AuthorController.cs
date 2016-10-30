@@ -17,11 +17,23 @@ namespace Learning.Controllers
         {
             if (Session["LogedUserID"] != null)
             {
+
                 db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
                 var model = new AuthorAllModel();
                 model.authorModel = new AuthorViewModel();
                 model.authorModel.UserId = db.authorId;
-                model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
+                model.authorModel.Fullname = db.authorName;
+                model.authorModel.email = db.authorEmail;
+                model.authorModel.Affiliasi = db.authorAf;
+                return View(model);
+            }
+            else if (Session["ViewUserID"] != null)
+            {
+                db.readAuthor(int.Parse(Session["ViewUserID"].ToString()));
+                var model = new AuthorAllModel();
+                model.authorModel = new AuthorViewModel();
+                model.authorModel.UserId = db.authorId;
+                model.authorModel.Fullname = db.authorName;
                 model.authorModel.email = db.authorEmail;
                 model.authorModel.Affiliasi = db.authorAf;
                 return View(model);
@@ -63,7 +75,7 @@ namespace Learning.Controllers
         {
             this.sm = new SearchModel();
 
-            if(key != null)
+            if (key != null)
             {
                 //sm.key = key;
                 db.searchProfile(key);
@@ -76,14 +88,30 @@ namespace Learning.Controllers
             {
                 return RedirectToAction("AuthorProfile", "Author");
             }
-            
+
         }
 
         [HttpPost]
         public ActionResult Search(AuthorAllModel allModel)
         {
             string key = allModel.searchModel.key;
-            return RedirectToAction("SearchResult", "Author", new { key = key});
+            return RedirectToAction("SearchResult", "Author", new { key = key });
+        }
+
+        public ActionResult ViewFromSearch(int id)
+        {
+            if (id != 0)
+            {
+
+                Session["ViewUserID"] = id;
+
+                return RedirectToAction("AuthorProfile", "Author");
+            }
+            else
+            {
+                return RedirectToAction("SearchResult", "Author");
+            }
+
         }
     }
 }
