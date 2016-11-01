@@ -9,5 +9,6 @@ namespace Learning.Models
     {
         public String key { get; set; }
         public List<AuthorViewModel> searchResult { get; set; }
+        public String searchTxt { get; set; }
     }
 }

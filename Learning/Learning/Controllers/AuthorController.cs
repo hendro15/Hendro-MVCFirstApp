@@ -12,6 +12,7 @@ namespace Learning.Controllers
     {
         private DbHandler db = new DbHandler();
         private SearchModel sm;
+        private AuthorAllModel allModel;
         // GET: Author
         public ActionResult AuthorProfile()
         {
@@ -63,16 +64,16 @@ namespace Learning.Controllers
         [HttpGet]
         public ActionResult SearchResult(string key)
         {
-            this.sm = new SearchModel();
-
+            this.allModel = new AuthorAllModel();
+            allModel.searchModel = new SearchModel();
             if (key != null)
             {
                 Session["Keywords"] = key;
                 db.searchProfile(key);
 
-                sm.searchResult = db.searchResult;
+                allModel.searchModel.searchResult = db.searchResult;
 
-                return View(sm.searchResult);
+                return View(allModel);
             }
             else
             {

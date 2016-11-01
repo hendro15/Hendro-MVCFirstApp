@@ -1,5 +1,6 @@
 ﻿@using System.Collections.Generic
-@model List<Learning.Models.AuthorViewModel>
+@*@model List<Learning.Models.AuthorViewModel>*@
+@model Learning.Models.AuthorAllModel
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,12 +11,15 @@
 <div id="author-head-content">
     <div id="custom-search-input">
         <div class="input-group col-md-12" style="margin-top: 50px;">
-            <input name="searchTxt" type="text" class="form-control input-lg" style="border-radius: 0" />
-            <span class="input-group-btn">
-                <button class="btn btn-lg" type="submit" style="border-radius: 0;background-color: #57BF98; color: white; line-height:1.1;">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
-            </span>
+            @using (Html.BeginForm("Search", "Author", FormMethod.Post))
+            {
+                <div class="input-group" style="margin-bottom:10px; width:100%;">
+                    @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                    <div class="input-group-btn">
+                        <input type="submit" class="btn btn-primary" value="Search" />
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -23,21 +27,21 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
-            @if (Model.Count > 0)
+            @if (Model.searchModel.searchResult.Count > 0)
             {
-                foreach (Learning.Models.AuthorViewModel m in Model)
+                for (int i = 0; i < Model.searchModel.searchResult.Count; i++)
                 {
                     <tr class="tab_body_r">
                         <td class="tab_body_a">
-                            @m.UserId
+                            @Model.searchModel.searchResult[i].UserId.ToString()
                         </td>
                         <td class="tab_body_a">
-                            @m.Fullname
+                            @Model.searchModel.searchResult[i].Fullname.ToString()
                         </td>
                         <td class="tab_body_a">
-                            @m.Affiliasi
+                            @Model.searchModel.searchResult[i].Affiliasi.ToString()
                         </td>
-                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = m.UserId })</td>
+                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchModel.searchResult[i].UserId.ToString() })</td>
                     </tr>
                 }
             }
