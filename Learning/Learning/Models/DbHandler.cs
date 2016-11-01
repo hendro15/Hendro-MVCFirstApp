@@ -14,7 +14,7 @@ namespace Learning.Models
         public String authorEmail { get; set; }
         public String authorPass { get; set; }
         public String authorAf { get; set; }
-
+        public String messageUpdate { get; set; }
 
         private ArticleModel articleModel;
         private AuthorViewModel authorModel;
@@ -91,30 +91,10 @@ namespace Learning.Models
                 NpgsqlConnection objConn = new NpgsqlConnection(con);
                 objConn.Open();
 
-                //search in akun_penulis
+                //search in db table penulis
                 foreach (string word in keywords)
                 {
-                    string query = "SELECT akun_penulis.id_akun_penulis, akun_penulis.nama_lengkap, akun_penulis.afiliasi FROM irci.akun_penulis WHERE akun_penulis.nama_lengkap LIKE '%" + word + "%'";
-
-                    using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
-                    {
-                        NpgsqlDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            this.authorModel = new AuthorViewModel();
-                            authorModel.UserId = int.Parse(reader[0].ToString());
-                            authorModel.Fullname= reader[1].ToString();
-                            authorModel.Affiliasi= reader[2].ToString();
-
-                            searchResult.Add(authorModel);
-                        }
-                    }
-                }
-
-                //search in penulis
-                foreach (string word in keywords)
-                {
-                    string query = "SELECT penulis.id_penulis, penulis.nama_penulis FROM irci.penulis WHERE penulis.nama_penulis LIKE '%" + word + "%'";
+                    string query = "SELECT penulis.id_penulis, penulis.nama_penulis FROM irci.penulis WHERE penulis.nama_penulis LIKE '%" + word + "%' AND penulis.id_akun_penulis < 1";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, objConn))
                     {
@@ -131,6 +111,29 @@ namespace Learning.Models
                     }
                 }
                 objConn.Close();
+            }
+            catch (Exception msg)
+            {
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
+                throw;
+            }
+        }
+
+        public void mergeAccount(int idAuthor, int idPenulis)
+        {
+            try
+            {
+                NpgsqlConnection objConn = new NpgsqlConnection(con);
+                objConn.Open();
+
+                String query = "UPDATE irci.penulis SET id_akun_penulis = " + idAuthor + " WHERE id_penulis = " + idPenulis;
+
+                NpgsqlCommand command = new NpgsqlCommand(query, objConn);
+                command.ExecuteNonQuery();
+
+                messageUpdate = "Merge Account for idPenulis " + idPenulis + " = success";
+
+                System.Diagnostics.Debug.WriteLine(messageUpdate);
             }
             catch (Exception msg)
             {

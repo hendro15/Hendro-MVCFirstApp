@@ -23,19 +23,23 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
-            @foreach(Learning.Models.AuthorViewModel m in Model) {
-            <tr class="tab_body_r">
-                <td class="tab_body_a">
-                    @m.UserId
-                </td>
-                <td class="tab_body_a">
-                    @m.Fullname
-                </td>
-                <td class="tab_body_a">
-                    @m.Affiliasi
-                </td>
-                <td>@Html.ActionLink("View", "ViewFromSearch",  new { id = m.UserId})</td>
-            </tr>
+            @foreach (Learning.Models.AuthorViewModel m in Model)
+            {
+                <tr class="tab_body_r">
+                    <td class="tab_body_a">
+                        @m.UserId
+                    </td>
+                    <td class="tab_body_a">
+                        @m.Fullname
+                    </td>
+                    <td class="tab_body_a">
+                        @m.Affiliasi
+                    </td>
+                    @if (Session["LogedUserID"] != null)
+                    {
+                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = m.UserId })</td>
+                    }
+                </tr>
             }
         </tbody>
     </table>

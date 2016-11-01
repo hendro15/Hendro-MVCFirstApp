@@ -27,17 +27,6 @@ namespace Learning.Controllers
                 model.authorModel.Affiliasi = db.authorAf;
                 return View(model);
             }
-            else if (Session["ViewUserID"] != null)
-            {
-                db.readAuthor(int.Parse(Session["ViewUserID"].ToString()));
-                var model = new AuthorAllModel();
-                model.authorModel = new AuthorViewModel();
-                model.authorModel.UserId = db.authorId;
-                model.authorModel.Fullname = db.authorName;
-                model.authorModel.email = db.authorEmail;
-                model.authorModel.Affiliasi = db.authorAf;
-                return View(model);
-            }
             else
             {
                 return RedirectToAction("Login", "Home");
@@ -98,14 +87,12 @@ namespace Learning.Controllers
             return RedirectToAction("SearchResult", "Author", new { key = key });
         }
 
-        public ActionResult ViewFromSearch(int id)
+        public ActionResult MergeAction(int id)
         {
-            if (id != 0)
+            if (Session["LogedUserID"] != null)
             {
-
-                Session["ViewUserID"] = id;
-
-                return RedirectToAction("AuthorProfile", "Author");
+                db.mergeAccount(int.Parse(Session["LogedUserID"].ToString()), id);
+                return RedirectToAction("SearchResult", "Author");
             }
             else
             {
