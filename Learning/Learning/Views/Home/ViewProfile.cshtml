@@ -1,0 +1,100 @@
+﻿@model Learning.Models.AuthorAllModel
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<style>
+    .well {
+        background-color: #57BF98;
+        border-radius: 0px;
+    }
+
+        .well h4 {
+            color: white;
+            text-align: center;
+        }
+</style>
+<div class="container-fluid">
+    <div class="col-md-8" style="margin-top: 25px;">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="~/Img/profile.png" alt="Sample Photo" />
+            </div>
+            <div class="col-md-9">
+                <h2>@Model.authorModel.Fullname</h2>
+                @for (int i = 0; i < Model.authorModel.penulis.Count; i++)
+                {
+                    <span>@Model.authorModel.penulis[i].ToString(), </span>
+                }
+                <hr>
+                <p>@Model.authorModel.Affiliasi</p>
+                <p>@Model.authorModel.email</p>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th style="text-align: center" width="50%">Judul</th>
+                        <th style="text-align: center">Dikutip oleh</th>
+                        <th style="text-align: center">Tahun</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>Title</h2>
+                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
+                            <a href="#">ITS Publisher</a>
+                        </td>
+                        <td align="center">bla bla bla</td>
+                        <td align="center">2016</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @*<div class="col-md-4" style="margin-top: 50px;">
+            <div class="well">
+                @using (Html.BeginForm("Search", "Author", FormMethod.Post))
+                {
+                    <div id="custom-search-input">
+                        <div class="input-group" style="margin-bottom:10px; width:100%;">
+                            @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                        </div>
+                        <div class="input-group-btn">
+                            <input type="submit" class="btn btn-primary" value="Search"/>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>*@
+</div>

@@ -21,6 +21,7 @@ namespace Learning.Controllers
         private String adPass = "admin";
 
         private DbHandler db = new DbHandler();
+        private AuthorAllModel allModel;
 
         // GET: Home
         public ActionResult Index()
@@ -68,5 +69,58 @@ namespace Learning.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        [HttpPost]
+        public ActionResult Search(AuthorAllModel allModel)
+        {
+            if (allModel.searchModel.key != null)
+            {
+                string key = allModel.searchModel.key;
+                return RedirectToAction("GuestSearchResult", "Home", new { key = key });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GuestSearchResult(string key)
+        {
+            this.allModel = new AuthorAllModel();
+            allModel.searchModel = new SearchModel();
+            if (key != null)
+            {
+                Session["Keywords"] = key;
+                db.searchAuthor(key);
+                allModel.searchModel.searchResult = db.searchResult;
+                return View(allModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ViewProfile(int id)
+        {
+            this.allModel = new AuthorAllModel();
+            allModel.authorModel = new AuthorViewModel();
+            if (id > -1)
+            {
+                db.readAuthor(id);
+                allModel.authorModel.UserId = db.authorId;
+                allModel.authorModel.Fullname = db.authorName;
+                allModel.authorModel.email = db.authorEmail;
+                allModel.authorModel.Affiliasi = db.authorAf;
+                allModel.authorModel.penulis = db.penulis;
+                return View(allModel);
+            }
+            else
+            {
+                string key = Session["Keywords"].ToString();
+                return RedirectToAction("GuestSearchResult", "Home", new { key = key });
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿﻿@{
+﻿@model Learning.Models.AuthorAllModel
+﻿@{
     ViewBag.Title = "Home Page";
 }
 <style>
@@ -20,32 +21,19 @@
 </style>
 <div style="padding-top: 120px">
     <div class="row">
-        <form class="form-horizontal" action="~/Home/SearchResult">
-            <div class="col-md-6 col-md-offset-3" align="center">
+            <div class="col-md-8 col-md-offset-2" align="center">
                 <h1>Indonesian <span style="color: #57BF98;">Research Citation Index</span></h1>
                 <br>
-                <div id="custom-search-input">
-                    <div class="input-group col-md-12">
-                        <input name="searchTxt" type="text" class="form-control input-lg" style="border-radius: 0" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-lg" type="submit" style="border-radius: 0;background-color: #57BF98; color: white; line-height:1.1;">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
+                @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                {
+                    <div class="input-group" style="margin-bottom:10px; width:100%;">
+                        @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                        <div class="input-group-btn">
+                            <input type="submit" class="btn btn-primary" value="Search" />
+                        </div>
                     </div>
-                </div><br>
-                <div class="form-group">
-                    <label class="radio-inline">
-                        <input type="radio" id="inlineRadio1" name="searchRB" value="0" checked="true"> all
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" id="inlineRadio2" name="searchRB" value="1"> name
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" id="inlineRadio3" name="searchRB" value="2"> title
-                    </label>
-                </div>
+                }
+                <br>
             </div>
-        </form>
     </div>
 </div>

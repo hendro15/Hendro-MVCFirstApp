@@ -20,14 +20,14 @@ namespace Learning.Controllers
             {
 
                 db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
-                var model = new AuthorAllModel();
-                model.authorModel = new AuthorViewModel();
-                model.authorModel.UserId = db.authorId;
-                model.authorModel.Fullname = db.authorName;
-                model.authorModel.email = db.authorEmail;
-                model.authorModel.Affiliasi = db.authorAf;
-                model.authorModel.penulis = db.penulis;
-                return View(model);
+                this.allModel = new AuthorAllModel();
+                allModel.authorModel = new AuthorViewModel();
+                allModel.authorModel.UserId = db.authorId;
+                allModel.authorModel.Fullname = db.authorName;
+                allModel.authorModel.email = db.authorEmail;
+                allModel.authorModel.Affiliasi = db.authorAf;
+                allModel.authorModel.penulis = db.penulis;
+                return View(allModel);
             }
             else
             {
@@ -36,24 +36,24 @@ namespace Learning.Controllers
 
         }
 
-        public ActionResult MyAccount()
-        {
-            if (Session["LogedUserID"] != null)
-            {
-                db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
-                var model = new AuthorAllModel();
-                model.authorModel = new AuthorViewModel();
-                model.authorModel.UserId = db.authorId;
-                model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
-                model.authorModel.email = db.authorEmail;
-                model.authorModel.Affiliasi = db.authorAf;
-                return View(model.authorModel);
-            }
-            else
-            {
-                return RedirectToAction("Login", "Home");
-            }
-        }
+        //public ActionResult MyAccount()
+        //{
+        //    if (Session["LogedUserID"] != null)
+        //    {
+        //        db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
+        //        var model = new AuthorAllModel();
+        //        model.authorModel = new AuthorViewModel();
+        //        model.authorModel.UserId = db.authorId;
+        //        model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
+        //        model.authorModel.email = db.authorEmail;
+        //        model.authorModel.Affiliasi = db.authorAf;
+        //        return View(model.authorModel);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Login", "Home");
+        //    }
+        //}
 
         public ActionResult Logout()
         {
