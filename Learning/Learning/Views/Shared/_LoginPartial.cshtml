@@ -1,4 +1,4 @@
-﻿@if (Session["LogedUserID"] !=null && Session["LogedUserID"].ToString().Equals("999"))
+﻿@if (Session["LogedUserID"] != null && Session["LogedUserID"].ToString().Equals("999"))
 {
     using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -21,15 +21,6 @@ else if (Session["LogedUserID"] != null)
             <li>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-    }
-
-    using (Html.BeginForm("MyAccount", "Author", FormMethod.Post, new { id = "accountForm", @class = "navbar-right" }))
-    {
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-            </li>
-            <li><a href="javascript:document.getElementById('accountForm').submit()">My Account</a></li>
         </ul>
     }
 

@@ -17,6 +17,6 @@ namespace Learning.Models
         public String Fullname { get; set; }
         public String email { get; set; }
         public string Affiliasi { get; set; }
-
+        public List<string> penulis { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace Learning.Controllers
                 model.authorModel.Fullname = db.authorName;
                 model.authorModel.email = db.authorEmail;
                 model.authorModel.Affiliasi = db.authorAf;
+                model.authorModel.penulis = db.penulis;
                 return View(model);
             }
             else
@@ -66,7 +67,7 @@ namespace Learning.Controllers
 
             if (key != null)
             {
-                //sm.key = key;
+                Session["Keywords"] = key;
                 db.searchProfile(key);
 
                 sm.searchResult = db.searchResult;
@@ -91,8 +92,9 @@ namespace Learning.Controllers
         {
             if (Session["LogedUserID"] != null)
             {
+                string key = Session["Keywords"].ToString();
                 db.mergeAccount(int.Parse(Session["LogedUserID"].ToString()), id);
-                return RedirectToAction("SearchResult", "Author");
+                return RedirectToAction("SearchResult", "Author", new { key = key });
             }
             else
             {

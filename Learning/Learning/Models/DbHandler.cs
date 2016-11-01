@@ -18,10 +18,9 @@ namespace Learning.Models
 
         private ArticleModel articleModel;
         private AuthorViewModel authorModel;
-        //private ArticleRecords articleRecors = new ArticleRecords();
         public List<ArticleModel> listArtikel = new List<ArticleModel>();
-
         public List<AuthorViewModel> searchResult = new List<AuthorViewModel>();
+        public List<string> penulis = new List<string>();
 
         private string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=our_irci";
 
@@ -71,6 +70,18 @@ namespace Learning.Models
                         authorName = reader[1].ToString();
                         authorEmail = reader[2].ToString();
                         authorAf = reader[4].ToString();
+                    }
+                }
+
+                string query2 = "SELECT nama_penulis FROM irci.penulis WHERE id_akun_penulis = " + id;
+                using (NpgsqlCommand command = new NpgsqlCommand(query2, objConn))
+                {
+                    this.authorModel = new AuthorViewModel();
+                    NpgsqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        string nama = reader[0].ToString();
+                        penulis.Add(nama);
                     }
                 }
                 objConn.Close();

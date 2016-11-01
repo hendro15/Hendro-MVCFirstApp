@@ -23,32 +23,40 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
-            @foreach (Learning.Models.AuthorViewModel m in Model)
+            @if (Model.Count > 0)
+            {
+                foreach (Learning.Models.AuthorViewModel m in Model)
+                {
+                    <tr class="tab_body_r">
+                        <td class="tab_body_a">
+                            @m.UserId
+                        </td>
+                        <td class="tab_body_a">
+                            @m.Fullname
+                        </td>
+                        <td class="tab_body_a">
+                            @m.Affiliasi
+                        </td>
+                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = m.UserId })</td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr class="tab_body_r">
                     <td class="tab_body_a">
-                        @m.UserId
+                        <span>Hasil tidak ditemukan</span>
                     </td>
-                    <td class="tab_body_a">
-                        @m.Fullname
-                    </td>
-                    <td class="tab_body_a">
-                        @m.Affiliasi
-                    </td>
-                    @if (Session["LogedUserID"] != null)
-                    {
-                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = m.UserId })</td>
-                    }
                 </tr>
             }
         </tbody>
     </table>
-    <div class="author-table-foot">
-        <div class="result-info-text">
-            <p>Menampilkan 2 dari xxx.xxx hasil</p>
-        </div>
-        <div class="result-info-btn">
-            <button class="btn result-btn">1</button>
-        </div>
-    </div>
+    @*<div class="author-table-foot">
+            <div class="result-info-text">
+                <p>Menampilkan 2 dari xxx.xxx hasil</p>
+            </div>
+            <div class="result-info-btn">
+                <button class="btn result-btn">1</button>
+            </div>
+        </div>*@
 </div>
