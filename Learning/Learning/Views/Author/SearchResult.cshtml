@@ -34,15 +34,21 @@
                 {
                     <tr class="tab_body_r">
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].UserId.ToString()
+                            @Model.searchModel.searchResult[i].userId.ToString()
                         </td>
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].Fullname.ToString()
+                            @Model.searchModel.searchResult[i].fullname.ToString()
                         </td>
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].Affiliasi.ToString()
+                            @Model.searchModel.searchResult[i].afiliasi.ToString()
                         </td>
-                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchModel.searchResult[i].UserId.ToString() })</td>
+                        @if (Session["LogedUserID"] != null)
+                        {
+                            <td>@Html.ActionLink("View", "AuthorProfile", new { id = Model.searchModel.searchResult[i].userId.ToString() })</td>
+                            @*<td><a href= "@Url.Action("AuthorProfile", "Controllers", new { id = Model.searchModel.searchResult[i].userId.ToString()})">View</a></td>*@
+
+                        }
+                        <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchModel.searchResult[i].userId.ToString() })</td>
                     </tr>
                 }
             }

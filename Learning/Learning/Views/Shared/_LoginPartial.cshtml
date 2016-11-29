@@ -24,7 +24,7 @@ else if (Session["LogedUserID"] != null)
         </ul>
     }
 
-    using (Html.BeginForm("AuthorProfile", "Author", FormMethod.Post, new { id = "profileForm", @class = "navbar-right" }))
+    using (Html.BeginForm("MyProfile", "Author", FormMethod.Post, new { id = "profileForm", @class = "navbar-right" }))
     {
         <ul class="nav navbar-nav navbar-right">
             <li>

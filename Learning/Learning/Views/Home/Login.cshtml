@@ -10,7 +10,7 @@
             @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "Login failde. Check your login details");
+                @Html.ValidationSummary(true, "Login failed. Check your login details");
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })

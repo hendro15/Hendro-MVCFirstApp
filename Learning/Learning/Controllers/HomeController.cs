@@ -10,18 +10,14 @@ namespace Learning.Controllers
     public class HomeController : Controller
     {
 
-        //private int userID = 12345;
-        //private String fullname = "Michael Angelo";
-        //private String email = "user@email.com";
-        //private String pass = "12345";
-
         private int adId = 999;
         private String adName = "admin";
         private String adEmail = "admin@email.com";
         private String adPass = "admin";
 
-        private DbHandler db = new DbHandler();
+        private AuthorModel model;
         private AuthorAllModel allModel;
+        private DbHandler db = new DbHandler();
 
         // GET: Home
         public ActionResult Index()
@@ -38,15 +34,18 @@ namespace Learning.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel lm)
         {
-            db.loginAuthor(lm.Email, lm.Password);
+            model = new AuthorModel();
+            allModel = new AuthorAllModel();
+
+            allModel.authorModel = model.login(lm.Email, lm.Password);
 
             if (ModelState.IsValid)
             {
-                if (lm.Email.Equals(db.authorEmail) && lm.Password.Equals(db.authorPass))
+                if (lm.Email.Equals(allModel.authorModel.email) && lm.Password.Equals(allModel.authorModel.password))
                 {
-                    Session["LogedUserID"] = db.authorId;
-                    Session["LogedUserFullname"] = db.authorName;
-                    return RedirectToAction("AuthorProfile", "Author", new { id = db.authorId });
+                    Session["LogedUserID"] = allModel.authorModel.userId;
+                    Session["LogedUserFullname"] = allModel.authorModel.fullname;
+                    return RedirectToAction("MyProfile", "Author");
                 }
                 else if (lm.Email.Equals(adEmail) && lm.Password.Equals(adPass))
                 {
@@ -55,7 +54,6 @@ namespace Learning.Controllers
 
                     return RedirectToAction("Article", "Admin");
                 }
-                // System.Diagnostics.Debug.WriteLine("This is email : " + lm.Email);
             }
             return View(lm);
         }
@@ -86,13 +84,14 @@ namespace Learning.Controllers
         [HttpGet]
         public ActionResult GuestSearchResult(string key)
         {
+            model = new AuthorModel();
             this.allModel = new AuthorAllModel();
             allModel.searchModel = new SearchModel();
+
             if (key != null)
             {
-                Session["Keywords"] = key;
-                db.searchAuthor(key);
-                allModel.searchModel.searchResult = db.searchResult;
+                allModel.searchModel.searchResult = model.researcherList(key);
+                allModel.searchModel.key = key;
                 return View(allModel);
             }
             else
@@ -104,17 +103,14 @@ namespace Learning.Controllers
         [HttpGet]
         public ActionResult ViewProfile(int id)
         {
-            this.allModel = new AuthorAllModel();
-            allModel.authorModel = new AuthorViewModel();
+            model = new AuthorModel();
+            allModel = new AuthorAllModel();
+
             if (id > -1)
             {
-                db.readAuthor(id);
-                allModel.authorModel.UserId = db.authorId;
-                allModel.authorModel.Fullname = db.authorName;
-                allModel.authorModel.email = db.authorEmail;
-                allModel.authorModel.Affiliasi = db.authorAf;
-                allModel.authorModel.penulis = db.penulis;
+                allModel.authorModel = model.researcher(id);
                 return View(allModel);
+
             }
             else
             {

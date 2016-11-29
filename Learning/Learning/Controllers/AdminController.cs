@@ -9,28 +9,20 @@ namespace Learning.Controllers
 {
     public class AdminController : Controller
     {
-        private DbHandler db = new DbHandler();
         private List<ArticleModel> artikelList = new List<ArticleModel>();
         private List<ArticleModel> prosesArtikelList;
         private ArticleModel articleModel;
+        private Article article;
+
         // GET: Admin
         public ActionResult Article()
         {
             
             if (Session["LogedUserFullname"] != null)
             {
-                db.readArticle();
-                //for (int i = 0; i < int.Parse(db.listArtikel.Count.ToString()); i++)
-                //{
-                //    ar.artikelList.Add(db.listArtikel[i]);
-                //}
+                this.article = new Article();
 
-                //ar.artikelList = db.listArtikel;
-                artikelList = db.listArtikel;
-                //    ar.artikelList.AddRange(db.listArtikel);
-                //db.readArticle();
-
-                return View(artikelList);
+                return View(article.artikelList());
             }
             else
             {

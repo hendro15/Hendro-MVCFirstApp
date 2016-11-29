@@ -11,54 +11,41 @@ namespace Learning.Controllers
     public class AuthorController : Controller
     {
         private DbHandler db = new DbHandler();
-        private SearchModel sm;
         private AuthorAllModel allModel;
-        // GET: Author
-        public ActionResult AuthorProfile()
+        private AuthorModel model;
+
+        public ActionResult MyProfile()
         {
             if (Session["LogedUserID"] != null)
             {
-
-                db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
+                model = new AuthorModel();
                 this.allModel = new AuthorAllModel();
-                allModel.authorModel = new AuthorViewModel();
-                allModel.authorModel.UserId = db.authorId;
-                allModel.authorModel.Fullname = db.authorName;
-                allModel.authorModel.email = db.authorEmail;
-                allModel.authorModel.Affiliasi = db.authorAf;
-                allModel.authorModel.penulis = db.penulis;
+
+                allModel.authorModel = model.researcher(int.Parse(Session["LogedUserID"].ToString()));
+                return RedirectToAction("AuthorProfile", "Author", new { id = int.Parse(Session["LogedUserID"].ToString()) });
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AuthorProfile(int id)
+        {
+            if (id != 0)
+            {
+                model = new AuthorModel();
+                this.allModel = new AuthorAllModel();
+
+                allModel.authorModel = model.researcher(id);
                 return View(allModel);
             }
             else
             {
                 return RedirectToAction("Login", "Home");
             }
-
-        }
-
-        //public ActionResult MyAccount()
-        //{
-        //    if (Session["LogedUserID"] != null)
-        //    {
-        //        db.readAuthor(int.Parse(Session["LogedUserID"].ToString()));
-        //        var model = new AuthorAllModel();
-        //        model.authorModel = new AuthorViewModel();
-        //        model.authorModel.UserId = db.authorId;
-        //        model.authorModel.Fullname = Session["LogedUserFullname"].ToString();
-        //        model.authorModel.email = db.authorEmail;
-        //        model.authorModel.Affiliasi = db.authorAf;
-        //        return View(model.authorModel);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login", "Home");
-        //    }
-        //}
-
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -66,18 +53,19 @@ namespace Learning.Controllers
         {
             this.allModel = new AuthorAllModel();
             allModel.searchModel = new SearchModel();
+            model = new AuthorModel();
+
             if (key != null)
             {
                 Session["Keywords"] = key;
-                db.searchProfile(key);
-
-                allModel.searchModel.searchResult = db.searchResult;
+                allModel.searchModel.searchResult = model.researcherList(key);
+                allModel.searchModel.key = key;
 
                 return View(allModel);
             }
             else
             {
-                return RedirectToAction("AuthorProfile", "Author");
+                return RedirectToAction("AuthorProfile", "Author", new { id = int.Parse(Session["LogedUserID"].ToString()) });
             }
 
         }
@@ -91,10 +79,12 @@ namespace Learning.Controllers
 
         public ActionResult MergeAction(int id)
         {
+            model = new AuthorModel();
+
             if (Session["LogedUserID"] != null)
             {
                 string key = Session["Keywords"].ToString();
-                db.mergeAccount(int.Parse(Session["LogedUserID"].ToString()), id);
+                model.merge(int.Parse(Session["LogedUserID"].ToString()), id);
                 return RedirectToAction("SearchResult", "Author", new { key = key });
             }
             else

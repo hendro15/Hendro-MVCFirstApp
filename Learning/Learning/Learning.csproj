@@ -178,7 +178,6 @@
     <Content Include="Views\Author\AuthorProfile.cshtml" />
     <Content Include="Views\Admin\Article.cshtml" />
     <Content Include="Views\Author\SearchResult.cshtml" />
-    <Content Include="Views\Author\MyAccount.cshtml" />
     <Content Include="Views\Home\GuestSearchResult.cshtml" />
     <Content Include="Views\Home\ViewProfile.cshtml" />
     <None Include="Web.Debug.config">
