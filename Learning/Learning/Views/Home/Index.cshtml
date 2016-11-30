@@ -27,7 +27,7 @@
                 @using (Html.BeginForm("Search", "Home", FormMethod.Post))
                 {
                     <div class="input-group" style="margin-bottom:10px; width:100%;">
-                        @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.searchAuthor.key, new { @class = "form-control" })
                         <div class="input-group-btn">
                             <input type="submit" class="btn btn-primary" value="Search" />
                         </div>

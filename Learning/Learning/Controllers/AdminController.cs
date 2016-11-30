@@ -22,7 +22,7 @@ namespace Learning.Controllers
             {
                 this.article = new Article();
 
-                return View(article.artikelList());
+                return View(article.articleList());
             }
             else
             {

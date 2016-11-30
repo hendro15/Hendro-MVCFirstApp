@@ -30,7 +30,7 @@ namespace Learning.Models
         private NpgsqlDataReader reader;
         private List<ArticleModel> list;
 
-        public List<ArticleModel> artikelList()
+        public List<ArticleModel> articleList()
         {
             list = new List<ArticleModel>();
             dbHandler = new DbHandler();

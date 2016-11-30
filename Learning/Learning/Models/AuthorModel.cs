@@ -8,11 +8,11 @@ namespace Learning.Models
 {
     public class AuthorAllModel
     {
-        public SearchModel searchModel { get; set; }
-        public AuthorViewModel authorModel { get; set; }
+        public SearchAuthor searchAuthor { get; set; }
+        public AuthorModel authorModel { get; set; }
     }
 
-    public class AuthorViewModel
+    public class AuthorModel
     {
         public int userId { get; set; }
         public string fullname { get; set; }
@@ -22,19 +22,25 @@ namespace Learning.Models
         public List<string> penulis { get; set; }
     }
 
-    public class AuthorModel
+    public class SearchAuthor
     {
-        private AuthorViewModel authorViewModel;
+        public string key { get; set; }
+        public List<AuthorModel> authorList { get; set; }
+    }
+
+    public class Author
+    {
+        private AuthorModel authorModel;
         private DbHandler dbHandler;
         private NpgsqlConnection con;
         private NpgsqlCommand command;
         private NpgsqlDataReader reader;
-        private List<AuthorViewModel> list;
+        private List<AuthorModel> list;
 
-        public AuthorViewModel login(string email, string pass)
+        public AuthorModel login(string email, string pass)
         {
             dbHandler = new DbHandler();
-            authorViewModel = new AuthorViewModel();
+            authorModel = new AuthorModel();
             string query = "SELECT * FROM irci.akun_penulis WHERE email = '" + email + "' and password = '" + pass + "'";
 
             try
@@ -47,10 +53,10 @@ namespace Learning.Models
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        authorViewModel.userId = int.Parse(reader[0].ToString());
-                        authorViewModel.fullname = reader[1].ToString();
-                        authorViewModel.email = reader[2].ToString();
-                        authorViewModel.password = reader[3].ToString();
+                        authorModel.userId = int.Parse(reader[0].ToString());
+                        authorModel.fullname = reader[1].ToString();
+                        authorModel.email = reader[2].ToString();
+                        authorModel.password = reader[3].ToString();
                     }
                 }
                 con.Close();
@@ -61,14 +67,14 @@ namespace Learning.Models
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
             }
 
-            return authorViewModel;
+            return authorModel;
         }
 
-        public AuthorViewModel researcher(int id)
+        public AuthorModel researcher(int id)
         {
             List<String> authPenulis = new List<String>();
             dbHandler = new DbHandler();
-            authorViewModel = new AuthorViewModel();
+            authorModel = new AuthorModel();
             string query = "SELECT * FROM irci.akun_penulis WHERE id_akun_penulis = " + id;
             string query2 = "SELECT nama_penulis FROM irci.penulis WHERE id_akun_penulis = " + id;
 
@@ -82,11 +88,11 @@ namespace Learning.Models
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        authorViewModel.userId = int.Parse(reader[0].ToString());
-                        authorViewModel.fullname = reader[1].ToString();
-                        authorViewModel.email = reader[2].ToString();
-                        authorViewModel.password = reader[3].ToString();
-                        authorViewModel.afiliasi = reader[4].ToString();
+                        authorModel.userId = int.Parse(reader[0].ToString());
+                        authorModel.fullname = reader[1].ToString();
+                        authorModel.email = reader[2].ToString();
+                        authorModel.password = reader[3].ToString();
+                        authorModel.afiliasi = reader[4].ToString();
                     }
                 }
 
@@ -101,7 +107,7 @@ namespace Learning.Models
                     }
                 }
 
-                authorViewModel.penulis = authPenulis;
+                authorModel.penulis = authPenulis;
 
                 con.Close();
 
@@ -111,12 +117,12 @@ namespace Learning.Models
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
             }
 
-            return authorViewModel;
+            return authorModel;
         }
 
-        public List<AuthorViewModel> researcherList(string key)
+        public List<AuthorModel> researcherList(string key)
         {
-            list = new List<AuthorViewModel>();
+            list = new List<AuthorModel>();
             dbHandler = new DbHandler();
 
             string[] keywords = key.Split(' ');
@@ -135,12 +141,12 @@ namespace Learning.Models
                         NpgsqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            this.authorViewModel = new AuthorViewModel();
-                            authorViewModel.userId = int.Parse(reader[0].ToString());
-                            authorViewModel.fullname = reader[1].ToString();
-                            authorViewModel.afiliasi = reader[2].ToString();
+                            this.authorModel = new AuthorModel();
+                            authorModel.userId = int.Parse(reader[0].ToString());
+                            authorModel.fullname = reader[1].ToString();
+                            authorModel.afiliasi = reader[2].ToString();
 
-                            list.Add(authorViewModel);
+                            list.Add(authorModel);
                         }
                     }
                 }

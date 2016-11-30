@@ -15,9 +15,9 @@ namespace Learning.Controllers
         private String adEmail = "admin@email.com";
         private String adPass = "admin";
 
-        private AuthorModel model;
+        private Author model;
         private AuthorAllModel allModel;
-        private DbHandler db = new DbHandler();
+        private AuthorController authorControl;
 
         // GET: Home
         public ActionResult Index()
@@ -34,7 +34,7 @@ namespace Learning.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel lm)
         {
-            model = new AuthorModel();
+            model = new Author();
             allModel = new AuthorAllModel();
 
             allModel.authorModel = model.login(lm.Email, lm.Password);
@@ -70,10 +70,10 @@ namespace Learning.Controllers
         [HttpPost]
         public ActionResult Search(AuthorAllModel allModel)
         {
-            if (allModel.searchModel.key != null)
+            if (allModel.searchAuthor.key != null)
             {
-                string key = allModel.searchModel.key;
-                return RedirectToAction("GuestSearchResult", "Home", new { key = key });
+                string key = allModel.searchAuthor.key;
+                return RedirectToAction("SearchResult", "Home", new { key = key });
             }
             else
             {
@@ -82,16 +82,16 @@ namespace Learning.Controllers
         }
 
         [HttpGet]
-        public ActionResult GuestSearchResult(string key)
+        public ActionResult SearchResult(string key)
         {
-            model = new AuthorModel();
+            model = new Author();
             this.allModel = new AuthorAllModel();
-            allModel.searchModel = new SearchModel();
+            allModel.searchAuthor = new SearchAuthor();
 
             if (key != null)
             {
-                allModel.searchModel.searchResult = model.researcherList(key);
-                allModel.searchModel.key = key;
+                allModel.searchAuthor.authorList = model.researcherList(key);
+                allModel.searchAuthor.key = key;
                 return View(allModel);
             }
             else
@@ -101,22 +101,19 @@ namespace Learning.Controllers
         }
 
         [HttpGet]
-        public ActionResult ViewProfile(int id)
+        public ActionResult AuthorProfile(int id)
         {
-            model = new AuthorModel();
-            allModel = new AuthorAllModel();
+            authorControl = new AuthorController();
 
-            if (id > -1)
+            if (id > 0)
             {
-                allModel.authorModel = model.researcher(id);
-                return View(allModel);
-
+                return RedirectToAction("AuthorProfile", "Author", new { id = id });
             }
             else
             {
-                string key = Session["Keywords"].ToString();
-                return RedirectToAction("GuestSearchResult", "Home", new { key = key });
+                return RedirectToAction("Login", "Home");
             }
         }
+
     }
 }

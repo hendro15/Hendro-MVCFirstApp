@@ -12,13 +12,13 @@ namespace Learning.Controllers
     {
         private DbHandler db = new DbHandler();
         private AuthorAllModel allModel;
-        private AuthorModel model;
+        private Author model;
 
         public ActionResult MyProfile()
         {
             if (Session["LogedUserID"] != null)
             {
-                model = new AuthorModel();
+                model = new Author();
                 this.allModel = new AuthorAllModel();
 
                 allModel.authorModel = model.researcher(int.Parse(Session["LogedUserID"].ToString()));
@@ -36,7 +36,7 @@ namespace Learning.Controllers
         {
             if (id != 0)
             {
-                model = new AuthorModel();
+                model = new Author();
                 this.allModel = new AuthorAllModel();
 
                 allModel.authorModel = model.researcher(id);
@@ -52,14 +52,14 @@ namespace Learning.Controllers
         public ActionResult SearchResult(string key)
         {
             this.allModel = new AuthorAllModel();
-            allModel.searchModel = new SearchModel();
-            model = new AuthorModel();
+            allModel.searchAuthor = new SearchAuthor();
+            model = new Author();
 
             if (key != null)
             {
                 Session["Keywords"] = key;
-                allModel.searchModel.searchResult = model.researcherList(key);
-                allModel.searchModel.key = key;
+                allModel.searchAuthor.authorList = model.researcherList(key);
+                allModel.searchAuthor.key = key;
 
                 return View(allModel);
             }
@@ -73,13 +73,13 @@ namespace Learning.Controllers
         [HttpPost]
         public ActionResult Search(AuthorAllModel allModel)
         {
-            string key = allModel.searchModel.key;
+            string key = allModel.searchAuthor.key;
             return RedirectToAction("SearchResult", "Author", new { key = key });
         }
 
         public ActionResult MergeAction(int id)
         {
-            model = new AuthorModel();
+            model = new Author();
 
             if (Session["LogedUserID"] != null)
             {

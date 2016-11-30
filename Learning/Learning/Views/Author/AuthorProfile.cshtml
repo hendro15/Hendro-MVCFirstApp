@@ -83,11 +83,11 @@
     </div>
     <div class="col-md-4" style="margin-top: 50px;">
         <div class="well">
-            @using (Html.BeginForm("Search", "Author", FormMethod.Post))
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <div id="custom-search-input">
                     <div class="input-group" style="margin-bottom:10px; width:100%;">
-                        @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.searchAuthor.key, new { @class = "form-control" })
                     </div>
                     <div class="input-group-btn">
                         <input type="submit" class="btn btn-primary" value="Search"/>
