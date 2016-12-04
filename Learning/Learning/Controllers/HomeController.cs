@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Learning.Models;
+using System.Data;
 
 namespace Learning.Controllers
 {
@@ -18,6 +19,7 @@ namespace Learning.Controllers
         private Author model;
         private AuthorAllModel allModel;
         private AuthorController authorControl;
+        private DataTable dt;
 
         // GET: Home
         public ActionResult Index()
@@ -93,6 +95,7 @@ namespace Learning.Controllers
                 allModel.searchAuthor.authorList = model.researcherList(key);
                 allModel.searchAuthor.key = key;
                 return View(allModel);
+
             }
             else
             {

@@ -1,6 +1,7 @@
 ﻿@using System.Collections.Generic
-@*@model List<Learning.Models.AuthorViewModel>*@
+@using System.Data
 @model Learning.Models.AuthorAllModel
+
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Search Result";
@@ -15,7 +16,7 @@
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <div class="input-group" style="margin-bottom:10px; width:100%;">
-                    @Html.TextBoxFor(m => m.searchModel.key, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.searchAuthor.key, new { @class = "form-control" })
                     <div class="input-group-btn">
                         <input type="submit" class="btn btn-primary" value="Search" />
                     </div>
@@ -28,25 +29,25 @@
 <div id="author-result-content">
     <table class="table author-table" style="margin-top: 20px;">
         <tbody id="author_tab_body">
-            @if (Model.searchModel.searchResult.Count > 0)
+            @if (Model.searchAuthor.authorList.Rows.Count > 0)
             {
-                for (int i = 0; i < Model.searchModel.searchResult.Count; i++)
+                for (int i = 0; i < Model.searchAuthor.authorList.Rows.Count; i++)
                 {
                     <tr class="tab_body_r">
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].userId.ToString()
+                            @Model.searchAuthor.authorList.Rows[i]["ID"].ToString()
                         </td>
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].fullname.ToString()
+                            @Model.searchAuthor.authorList.Rows[i]["Nama"].ToString()
                         </td>
                         <td class="tab_body_a">
-                            @Model.searchModel.searchResult[i].afiliasi.ToString()
+                            @Model.searchAuthor.authorList.Rows[i]["Afiliasi"].ToString()
                         </td>
                         @if (Session["LogedUserID"] != null)
                         {
-                            <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchModel.searchResult[i].userId.ToString() })</td>
+                            <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchAuthor.authorList.Rows[i]["ID"].ToString() })</td>
                         }
-                        <td>@Html.ActionLink("View", "AuthorProfile", new { id = Model.searchModel.searchResult[i].userId.ToString() })</td>
+                        <td>@Html.ActionLink("View", "AuthorProfile", new { id = Model.searchAuthor.authorList.Rows[i]["ID"].ToString() })</td>
                     </tr>
                 }
             }

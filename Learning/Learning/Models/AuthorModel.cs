@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Npgsql;
+using System.Data;
 
 namespace Learning.Models
 {
@@ -25,7 +26,7 @@ namespace Learning.Models
     public class SearchAuthor
     {
         public string key { get; set; }
-        public List<AuthorModel> authorList { get; set; }
+        public DataTable authorList { get; set; }
     }
 
     public class Author
@@ -36,6 +37,7 @@ namespace Learning.Models
         private NpgsqlCommand command;
         private NpgsqlDataReader reader;
         private List<AuthorModel> list;
+        private DataTable dt;
 
         public AuthorModel login(string email, string pass)
         {
@@ -120,7 +122,7 @@ namespace Learning.Models
             return authorModel;
         }
 
-        public List<AuthorModel> researcherList(string key)
+        public DataTable researcherList(string key)
         {
             list = new List<AuthorModel>();
             dbHandler = new DbHandler();
@@ -141,12 +143,14 @@ namespace Learning.Models
                         NpgsqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            this.authorModel = new AuthorModel();
-                            authorModel.userId = int.Parse(reader[0].ToString());
-                            authorModel.fullname = reader[1].ToString();
-                            authorModel.afiliasi = reader[2].ToString();
+                            this.dt = new DataTable();
+                            dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("Nama"), new DataColumn("Afiliasi") });
 
-                            list.Add(authorModel);
+                            int id = int.Parse(reader[0].ToString());
+                            string fullname = reader[1].ToString();
+                            string afiliasi = reader[2].ToString();
+
+                            dt.Rows.Add(id, fullname, afiliasi);
                         }
                     }
                 }
@@ -158,7 +162,7 @@ namespace Learning.Models
                 throw;
             }
 
-            return list;
+            return dt;
         }
 
         public void merge(int idAuthor, int idPenulis)

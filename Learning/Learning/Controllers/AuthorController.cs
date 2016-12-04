@@ -48,33 +48,11 @@ namespace Learning.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult SearchResult(string key)
-        {
-            this.allModel = new AuthorAllModel();
-            allModel.searchAuthor = new SearchAuthor();
-            model = new Author();
-
-            if (key != null)
-            {
-                Session["Keywords"] = key;
-                allModel.searchAuthor.authorList = model.researcherList(key);
-                allModel.searchAuthor.key = key;
-
-                return View(allModel);
-            }
-            else
-            {
-                return RedirectToAction("AuthorProfile", "Author", new { id = int.Parse(Session["LogedUserID"].ToString()) });
-            }
-
-        }
-
         [HttpPost]
         public ActionResult Search(AuthorAllModel allModel)
         {
             string key = allModel.searchAuthor.key;
-            return RedirectToAction("SearchResult", "Author", new { key = key });
+            return RedirectToAction("SearchResult", "Home", new { key = key });
         }
 
         public ActionResult MergeAction(int id)
