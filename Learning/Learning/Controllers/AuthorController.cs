@@ -40,6 +40,7 @@ namespace Learning.Controllers
                 this.allModel = new AuthorAllModel();
 
                 allModel.authorModel = model.researcher(id);
+                model.articleList(id);
                 return View(allModel);
             }
             else

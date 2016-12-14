@@ -12,7 +12,6 @@ namespace Learning.Controllers
         private List<ArticleModel> artikelList = new List<ArticleModel>();
         private List<ArticleModel> prosesArtikelList;
         private ArticleModel articleModel;
-        private Article article;
 
         // GET: Admin
         public ActionResult Article()
@@ -20,9 +19,8 @@ namespace Learning.Controllers
             
             if (Session["LogedUserFullname"] != null)
             {
-                this.article = new Article();
 
-                return View(article.articleList());
+                return View();
             }
             else
             {
