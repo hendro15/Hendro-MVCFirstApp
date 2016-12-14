@@ -79,6 +79,9 @@ namespace Learning.Models
             string query = "SELECT account.username, author.name FROM public.account, public.author WHERE account.id_account = " + id + "AND account.id_account = author.id_account AND author.default_account = 1";
             string query2 = "SELECT author.name FROM public.author WHERE author.id_account = " + id + "AND author.default_account = 0";
 
+            this.dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[1] { new DataColumn("Nama") });
+
             try
             {
                 con = dbHandler.connection();
@@ -100,8 +103,7 @@ namespace Learning.Models
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        this.dt = new DataTable();
-                        dt.Columns.AddRange(new DataColumn[1] { new DataColumn("Nama") });
+                        
 
                         string nama = reader[0].ToString();
                         dt.Rows.Add(nama);
