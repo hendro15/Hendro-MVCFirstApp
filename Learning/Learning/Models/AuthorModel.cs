@@ -20,7 +20,7 @@ namespace Learning.Models
         public string email { get; set; }
         public string afiliasi { get; set; }
         public string password { get; set; }
-        public List<string> penulis { get; set; }
+        public DataTable penulis { get; set; }
     }
 
     public class SearchAuthor
@@ -36,14 +36,14 @@ namespace Learning.Models
         private NpgsqlConnection con;
         private NpgsqlCommand command;
         private NpgsqlDataReader reader;
-        private List<AuthorModel> list;
         private DataTable dt;
 
         public AuthorModel login(string email, string pass)
         {
             dbHandler = new DbHandler();
             authorModel = new AuthorModel();
-            string query = "SELECT * FROM irci.akun_penulis WHERE email = '" + email + "' and password = '" + pass + "'";
+            //string query = "SELECT * FROM public.account WHERE username = '" + email + "' and password = '" + pass + "'";
+            string query = "SELECT account.id_account, account.username, account.password, author.name  FROM public.account, public.author WHERE account.username = '" + email + "' AND account.password = '" + pass + "' AND account.id_account = author.id_account";
 
             try
             {
@@ -56,9 +56,9 @@ namespace Learning.Models
                     while (reader.Read())
                     {
                         authorModel.userId = int.Parse(reader[0].ToString());
-                        authorModel.fullname = reader[1].ToString();
-                        authorModel.email = reader[2].ToString();
-                        authorModel.password = reader[3].ToString();
+                        authorModel.email = reader[1].ToString();
+                        authorModel.password = reader[2].ToString();
+                        authorModel.fullname = reader[3].ToString();
                     }
                 }
                 con.Close();
@@ -74,11 +74,10 @@ namespace Learning.Models
 
         public AuthorModel researcher(int id)
         {
-            List<String> authPenulis = new List<String>();
             dbHandler = new DbHandler();
             authorModel = new AuthorModel();
-            string query = "SELECT * FROM irci.akun_penulis WHERE id_akun_penulis = " + id;
-            string query2 = "SELECT nama_penulis FROM irci.penulis WHERE id_akun_penulis = " + id;
+            string query = "SELECT account.username, author.name FROM public.account, public.author WHERE account.id_account = " + id + "AND account.id_account = author.id_account AND author.default_account = 1";
+            string query2 = "SELECT author.name FROM public.author WHERE author.id_account = " + id + "AND author.default_account = 0";
 
             try
             {
@@ -90,11 +89,8 @@ namespace Learning.Models
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        authorModel.userId = int.Parse(reader[0].ToString());
+                        authorModel.email = reader[0].ToString();
                         authorModel.fullname = reader[1].ToString();
-                        authorModel.email = reader[2].ToString();
-                        authorModel.password = reader[3].ToString();
-                        authorModel.afiliasi = reader[4].ToString();
                     }
                 }
 
@@ -104,15 +100,17 @@ namespace Learning.Models
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
+                        this.dt = new DataTable();
+                        dt.Columns.AddRange(new DataColumn[1] { new DataColumn("Nama") });
+
                         string nama = reader[0].ToString();
-                        authPenulis.Add(nama);
+                        dt.Rows.Add(nama);
                     }
                 }
 
-                authorModel.penulis = authPenulis;
+                authorModel.penulis = dt;
 
                 con.Close();
-
             }
             catch (Exception msg)
             {
@@ -122,9 +120,8 @@ namespace Learning.Models
             return authorModel;
         }
 
-        public DataTable researcherList(string key)
+        public DataTable authorList(string key)
         {
-            list = new List<AuthorModel>();
             dbHandler = new DbHandler();
 
             string[] keywords = key.Split(' ');
@@ -132,25 +129,33 @@ namespace Learning.Models
             {
                 con = dbHandler.connection();
                 con.Open();
+                this.dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("Nama"), new DataColumn("ID Account") });
+                int id;
 
                 //search in db table penulis
                 foreach (string word in keywords)
                 {
-                    string query = "SELECT akun_penulis.id_akun_penulis, akun_penulis.nama_lengkap, akun_penulis.afiliasi FROM irci.akun_penulis WHERE lower(akun_penulis.nama_lengkap) LIKE lower('%" + word + "%')";
+                    string query = "SELECT author.id_account, author.id_author, author.name FROM public.author WHERE lower(author.name) LIKE lower('%" + word + "%')";
 
                     using (command = new NpgsqlCommand(query, con))
                     {
                         NpgsqlDataReader reader = command.ExecuteReader();
+                        
                         while (reader.Read())
                         {
-                            this.dt = new DataTable();
-                            dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("Nama"), new DataColumn("Afiliasi") });
+                            if (reader.IsDBNull(0))
+                            {
+                                id = 0;
+                            }
+                            else
+                            {
+                                id = int.Parse(reader[0].ToString());
+                            }
+                            int id_author = int.Parse(reader[1].ToString());
+                            string fullname = reader[2].ToString();
 
-                            int id = int.Parse(reader[0].ToString());
-                            string fullname = reader[1].ToString();
-                            string afiliasi = reader[2].ToString();
-
-                            dt.Rows.Add(id, fullname, afiliasi);
+                            dt.Rows.Add(id_author, fullname, id);
                         }
                     }
                 }
@@ -165,7 +170,7 @@ namespace Learning.Models
             return dt;
         }
 
-        public void merge(int idAuthor, int idPenulis)
+        public void merge(int idAccount, int idAuthor)
         {
             dbHandler = new DbHandler();
             try
@@ -173,7 +178,7 @@ namespace Learning.Models
                 con = dbHandler.connection();
                 con.Open();
 
-                String query = "UPDATE irci.penulis SET id_akun_penulis = " + idAuthor + " WHERE id_penulis = " + idPenulis;
+                String query = "UPDATE public.author SET id_account = " + idAccount + ", default_account = 0 WHERE id_author = " + idAuthor;
 
                 command = new NpgsqlCommand(query, con);
                 command.ExecuteNonQuery();

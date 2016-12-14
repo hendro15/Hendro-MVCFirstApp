@@ -19,7 +19,6 @@ namespace Learning.Controllers
         private Author model;
         private AuthorAllModel allModel;
         private AuthorController authorControl;
-        private DataTable dt;
 
         // GET: Home
         public ActionResult Index()
@@ -69,13 +68,25 @@ namespace Learning.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterViewModel rm)
+        {
+            return View(rm);
+        }
+
         [HttpPost]
         public ActionResult Search(AuthorAllModel allModel)
         {
             if (allModel.searchAuthor.key != null)
             {
-                string key = allModel.searchAuthor.key;
-                return RedirectToAction("SearchResult", "Home", new { key = key });
+                Session["keywords"] = allModel.searchAuthor.key;
+                return RedirectToAction("SearchResult", "Home", new { key = allModel.searchAuthor.key });
             }
             else
             {
@@ -92,7 +103,7 @@ namespace Learning.Controllers
 
             if (key != null)
             {
-                allModel.searchAuthor.authorList = model.researcherList(key);
+                allModel.searchAuthor.authorList = model.authorList(key);
                 allModel.searchAuthor.key = key;
                 return View(allModel);
 
@@ -115,6 +126,21 @@ namespace Learning.Controllers
             else
             {
                 return RedirectToAction("Login", "Home");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult MergeAction(int id)
+        {
+            authorControl = new AuthorController();
+
+            if(id > 0)
+            {
+                return RedirectToAction("MergeAction", "Author", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("Search", "Home");
             }
         }
 

@@ -22,8 +22,10 @@
             </div>
             <div class="col-md-9">
                 <h2>@Model.authorModel.fullname</h2>
-                @for(int i = 0; i < Model.authorModel.penulis.Count; i++){
-                <span>@Model.authorModel.penulis[i].ToString(), </span>
+                @if (Model.authorModel.penulis != null) { 
+                    for(int i = 0; i < Model.authorModel.penulis.Rows.Count; i++){
+                        <span>@Model.authorModel.penulis.Rows[i]["Nama"].ToString(), </span>
+                    }
                 }
                 <hr>
                 <p>@Model.authorModel.afiliasi</p>

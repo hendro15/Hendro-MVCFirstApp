@@ -11,7 +11,7 @@ namespace Learning.Models
     {
         public NpgsqlConnection connection()
         {
-            string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=our_irci";
+            string con = "Server=localhost;Port=5432;User Id=Sonic;Password=sonic;Database=new_irci";
             NpgsqlConnection objConn = new NpgsqlConnection(con);
 
             return objConn;
