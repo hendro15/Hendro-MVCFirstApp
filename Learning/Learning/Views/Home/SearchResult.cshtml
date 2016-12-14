@@ -38,14 +38,14 @@
                                 <td class="tab_body_a">
                                     @Model.searchAuthor.authorList.Rows[i]["Nama"].ToString()
                                 </td>
-                                <td class="tab_body_a">
-                                    @Model.searchAuthor.authorList.Rows[i]["Afiliasi"].ToString()
-                                </td>
-                                @if (Session["LogedUserID"] != null)
+                                @if (int.Parse(Model.searchAuthor.authorList.Rows[i]["ID Account"].ToString()) > 0)
                                 {
-                                    <td>@Html.ActionLink("Merge", "MergeAction", new { id = Model.searchAuthor.authorList.Rows[i]["ID"].ToString() })</td>
+                                    <td>@Html.ActionLink("View", "AuthorProfile", new { id = int.Parse(Model.searchAuthor.authorList.Rows[i]["ID Account"].ToString()) })</td>
                                 }
-                                <td>@Html.ActionLink("View", "AuthorProfile", new { id = Model.searchAuthor.authorList.Rows[i]["ID"].ToString() })</td>
+                                @if (Session["LogedUserID"] != null && int.Parse(Model.searchAuthor.authorList.Rows[i]["ID Account"].ToString()) == 0)
+                                {
+                                    <td>@Html.ActionLink("Merge", "MergeAction", new { id = int.Parse(Model.searchAuthor.authorList.Rows[i]["ID"].ToString()) })</td>
+                                }
                             </tr>
                         }
                     }

@@ -64,11 +64,11 @@ namespace Learning.Controllers
             {
                 string key = Session["Keywords"].ToString();
                 model.merge(int.Parse(Session["LogedUserID"].ToString()), id);
-                return RedirectToAction("SearchResult", "Author", new { key = key });
+                return RedirectToAction("SearchResult", "Home", new { key = key });
             }
             else
             {
-                return RedirectToAction("SearchResult", "Author");
+                return RedirectToAction("SearchResult", "Home");
             }
 
         }
