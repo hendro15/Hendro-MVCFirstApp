@@ -20,8 +20,6 @@ namespace Learning.Controllers
             {
                 model = new Author();
                 this.allModel = new AuthorAllModel();
-
-                allModel.authorModel = model.researcher(int.Parse(Session["LogedUserID"].ToString()));
                 return RedirectToAction("AuthorProfile", "Author", new { id = int.Parse(Session["LogedUserID"].ToString()) });
 
             }
@@ -40,7 +38,8 @@ namespace Learning.Controllers
                 this.allModel = new AuthorAllModel();
 
                 allModel.authorModel = model.researcher(id);
-                model.articleList(id);
+                allModel.authorModel.artikel = model.articleList(id);
+                allModel.authorModel.citasi = model.citationList(id);
                 return View(allModel);
             }
             else

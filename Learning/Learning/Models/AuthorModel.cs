@@ -21,6 +21,8 @@ namespace Learning.Models
         public string afiliasi { get; set; }
         public string password { get; set; }
         public DataTable penulis { get; set; }
+        public DataTable artikel { get; set; }
+        public DataTable citasi { get; set; }
     }
 
     public class SearchAuthor
@@ -198,14 +200,14 @@ namespace Learning.Models
         {
             dbHandler = new DbHandler();
             articleModel = new ArticleModel();
-            string query = "SELECT a.id_article, a.tittle, ao.id_author FROM article a LEFT JOIN article_author aa on aa.id_article = a.id_article LEFT JOIN author ao on ao.id_author = aa.id_author WHERE ao.id_author = " + id + "";
+            string query = "SELECT a.id_article, a.tittle, a.year, ao.id_author FROM article a LEFT JOIN article_author aa on aa.id_article = a.id_article LEFT JOIN author ao on ao.id_author = aa.id_author WHERE ao.id_author = " + id + "";
 
             try
             {
                 con = dbHandler.connection();
                 con.Open();
                 this.dt = new DataTable();
-                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("ID Author") });
+                dt.Columns.AddRange(new DataColumn[4] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("Tahun"), new DataColumn("ID Author") });
 
                 using (command = new NpgsqlCommand(query, con))
                 {
@@ -214,11 +216,12 @@ namespace Learning.Models
                     {
                         articleModel.idArtikel = int.Parse(reader[0].ToString());
                         articleModel.judulArtikel = reader[1].ToString();
-                        articleModel.penulisArtikel = int.Parse(reader[2].ToString());
+                        articleModel.tahunArtikel = int.Parse(reader[2].ToString());
+                        articleModel.penulisArtikel = int.Parse(reader[3].ToString());
                         
                     }
                 }
-                dt.Rows.Add(articleModel.idArtikel, articleModel.judulArtikel, articleModel.penulisArtikel);
+                dt.Rows.Add(articleModel.idArtikel, articleModel.judulArtikel, articleModel.tahunArtikel, articleModel.penulisArtikel);
 
                 con.Close();
             }
@@ -229,6 +232,41 @@ namespace Learning.Models
 
             return dt;
         }
-    }
+
+        public DataTable citationList(int id)
+        {
+            dbHandler = new DbHandler();
+            articleModel = new ArticleModel();
+            string query = "SELECT a.id_article, a.tittle, NULLIF(ar.cited_num, 0) cited_num FROM public.article a LEFT JOIN(SELECT id_source_article, COUNT(*) cited_num FROM public.article_reference ar GROUP BY id_source_article) ar on ar.id_source_article = a.id_article LEFT JOIN article_author aa on aa.id_article = ar.id_source_article WHERE aa.id_author = " + id + "";
+
+            try
+            {
+                con = dbHandler.connection();
+                con.Open();
+                this.dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("Jumlah Citasi")});
+
+                using (command = new NpgsqlCommand(query, con))
+                {
+                    reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        articleModel.idArtikel = int.Parse(reader[0].ToString());
+                        articleModel.judulArtikel = reader[1].ToString();
+                        articleModel.jumlahCitasi = int.Parse(reader[2].ToString());
+                    }
+                }
+                dt.Rows.Add(articleModel.idArtikel, articleModel.judulArtikel, articleModel.jumlahCitasi);
+
+                con.Close();
+            }
+            catch (Exception msg)
+            {
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
+            }
+            return dt;
+        }
+        
+   }
 
 }

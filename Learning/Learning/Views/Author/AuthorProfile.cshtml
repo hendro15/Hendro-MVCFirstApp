@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "My Profile";
 }
-
 <div style="margin-top:70px;">
     <div class="col-md-8">
         <div class="row">
@@ -11,8 +10,10 @@
             </div>
             <div class="col-md-9">
                 <h2>@Model.authorModel.fullname</h2>
-                @if (Model.authorModel.penulis != null) { 
-                    for(int i = 0; i < Model.authorModel.penulis.Rows.Count; i++){
+                @if (Model.authorModel.penulis != null)
+                {
+                    for (int i = 0; i < Model.authorModel.penulis.Rows.Count; i++)
+                    {
                         <span>@Model.authorModel.penulis.Rows[i]["Nama"].ToString(), </span>
                     }
                 }
@@ -27,46 +28,28 @@
                 <thead>
                     <tr>
                         <th style="text-align: center" width="50%">Judul</th>
-                        <th style="text-align: center">Dikutip oleh</th>
+                        <th style="text-align: center">Jumlah Citasi</th>
                         <th style="text-align: center">Tahun</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            <h2>Title</h2>
-                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
-                            <a href="#">ITS Publisher</a>
-                        </td>
-                        <td align="center">bla bla bla</td>
-                        <td align="center">2016</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h2>Title</h2>
-                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
-                            <a href="#">ITS Publisher</a>
-                        </td>
-                        <td align="center">bla bla bla</td>
-                        <td align="center">2016</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h2>Title</h2>
-                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
-                            <a href="#">ITS Publisher</a>
-                        </td>
-                        <td align="center">bla bla bla</td>
-                        <td align="center">2016</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h2>Title</h2>
-                            <a href="#">Author 1</a>, <a href="#">Author 2</a><br>
-                            <a href="#">ITS Publisher</a>
-                        </td>
-                        <td align="center">bla bla bla</td>
-                        <td align="center">2016</td>
+                        @if (Model.authorModel.artikel != null)
+                        {
+                            for (int i = 0; i < Model.authorModel.artikel.Rows.Count; i++)
+                            {
+                                <td>@Model.authorModel.artikel.Rows[i]["Judul Artikel"].ToString()</td>
+                                if (Model.authorModel.citasi.Rows != null)
+                                {
+                                    <td align="center">@Model.authorModel.citasi.Rows[i]["Jumlah Citasi"].ToString()</td>
+                                }
+                                else
+                                {
+                                    <td align="center">0</td>
+                                }
+                                <td align="center">@Model.authorModel.artikel.Rows[i]["Tahun"].ToString()</td>
+                            }
+                        }
                     </tr>
                 </tbody>
             </table>
