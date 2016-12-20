@@ -37,7 +37,7 @@ namespace Learning.Models
         private NpgsqlCommand command;
         private NpgsqlDataReader reader;
         private DataTable dt;
-
+       
         public AuthorModel login(string email, string pass)
         {
             dbHandler = new DbHandler();
@@ -131,6 +131,7 @@ namespace Learning.Models
             {
                 con = dbHandler.connection();
                 con.Open();
+
                 this.dt = new DataTable();
                 dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("Nama"), new DataColumn("ID Account") });
                 int id;
