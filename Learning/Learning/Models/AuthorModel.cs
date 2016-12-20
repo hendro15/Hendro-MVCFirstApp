@@ -21,6 +21,8 @@ namespace Learning.Models
         public string afiliasi { get; set; }
         public string password { get; set; }
         public DataTable penulis { get; set; }
+        public DataTable artikel { get; set; }
+        public DataTable citasi { get; set; }
     }
 
     public class SearchAuthor
@@ -198,14 +200,14 @@ namespace Learning.Models
         {
             dbHandler = new DbHandler();
             articleModel = new ArticleModel();
-            string query = "SELECT a.id_article, a.tittle, ao.id_author FROM article a LEFT JOIN article_author aa on aa.id_article = a.id_article LEFT JOIN author ao on ao.id_author = aa.id_author WHERE ao.id_author = " + id + "";
+            string query = "SELECT a.id_article, a.tittle, a.year, ao.id_author FROM article a LEFT JOIN article_author aa on aa.id_article = a.id_article LEFT JOIN author ao on ao.id_author = aa.id_author WHERE ao.id_author = " + id + "";
 
             try
             {
                 con = dbHandler.connection();
                 con.Open();
                 this.dt = new DataTable();
-                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("ID Author") });
+                dt.Columns.AddRange(new DataColumn[4] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("Tahun"), new DataColumn("ID Author") });
 
                 using (command = new NpgsqlCommand(query, con))
                 {

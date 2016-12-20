@@ -36,6 +36,7 @@ namespace Learning.Controllers
             {
                 model = new Author();
                 this.allModel = new AuthorAllModel();
+                allModel.authorModel = new AuthorModel();
 
                 allModel.authorModel = model.researcher(id);
                 allModel.authorModel.artikel = model.articleList(id);
