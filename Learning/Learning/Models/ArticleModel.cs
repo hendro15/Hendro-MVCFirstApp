@@ -13,7 +13,9 @@ namespace Learning.Models
     {
         public int idArtikel { get; set; }
         public String judulArtikel { get; set; }
+        public int tahunArtikel { get; set; }
         public int penulisArtikel { get; set; }
+        public int jumlahCitasi { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy}")]
         public DateTime tahun { get; set; }
