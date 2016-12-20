@@ -32,6 +32,7 @@ namespace Learning.Models
     public class Author
     {
         private AuthorModel authorModel;
+        private ArticleModel articleModel;
         private DbHandler dbHandler;
         private NpgsqlConnection con;
         private NpgsqlCommand command;
@@ -191,6 +192,43 @@ namespace Learning.Models
                 System.Diagnostics.Debug.WriteLine(msg.ToString());
                 throw;
             }
+        }
+
+        //BUATAN KITAH
+        public DataTable articleList(int id)
+        {
+            dbHandler = new DbHandler();
+            articleModel = new ArticleModel();
+            string query = "SELECT a.id_article, a.tittle, ao.id_author FROM article a LEFT JOIN article_author aa on aa.id_article = a.id_article LEFT JOIN author ao on ao.id_author = aa.id_author WHERE ao.id_author = " + id + "";
+
+            try
+            {
+                con = dbHandler.connection();
+                con.Open();
+                this.dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("ID Artikel"), new DataColumn("Judul Artikel"), new DataColumn("ID Author") });
+
+                using (command = new NpgsqlCommand(query, con))
+                {
+                    reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        articleModel.idArtikel = int.Parse(reader[0].ToString());
+                        articleModel.judulArtikel = reader[1].ToString();
+                        articleModel.penulisArtikel = int.Parse(reader[2].ToString());
+                        
+                    }
+                }
+                dt.Rows.Add(articleModel.idArtikel, articleModel.judulArtikel, articleModel.penulisArtikel);
+
+                con.Close();
+            }
+            catch (Exception msg)
+            {
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
+            }
+
+            return dt;
         }
     }
 
