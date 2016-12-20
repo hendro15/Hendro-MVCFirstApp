@@ -19,6 +19,7 @@ namespace Learning.Controllers
         private Author model;
         private AuthorAllModel allModel;
         private AuthorController authorControl;
+        private Account account;
 
         // GET: Home
         public ActionResult Index()
@@ -77,7 +78,24 @@ namespace Learning.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel rm)
         {
-            return View(rm);
+            account = new Account();
+
+            if(rm.Email != null && rm.Password != null && rm.Fullname != null)
+            {
+                if(rm.Password == rm.ConfirmPassword)
+                {
+                    account.Register(rm.Email, rm.Password, rm.Fullname);
+                    return RedirectToAction("Login", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Register", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Home");
+            }
         }
 
         [HttpPost]
